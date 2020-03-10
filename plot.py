@@ -519,9 +519,6 @@ def makeFakeCRplots(dirname):
 	# trying tighter
 	#srs = ["CRBTageeKinSel","CRBTagmmKinSel","CRBTagmmKinSel"]
 	#sel = "CRBTagKinSel"
-	# trying looser than presel
-	#srs = ["SR0SFOSeem","SR0SFOSemm"]
-	#sel = "SR0SFOS"
 
 	# lead lep pT 
 	options = {
@@ -540,6 +537,21 @@ def makeFakeCRplots(dirname):
 	 "nbins": 10,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
+
+	# min dR j
+	options = {
+	 "yaxis_label": "Events",
+	 #"yaxis_range": [0,35],
+	 "xaxis_label": "min #DeltaR(l,j)",
+	 "nbins": 15,
+	 #"xaxis_range": [0,4.0],
+	}
+	makePlotMultipleSRs(srs, sel, "DRljmin3L" , dirname, options)
+
+	# SS 1J 
+	srs = ["CRBTag1Jee1JPre", "CRBTag1Jem1JPre", "CRBTag1Jmm1JPre"]
+	sel = "CRBTag1JPre"
+	makePlotMultipleSRs(srs, sel, "DRljmin" , dirname, options)
 
 	return 
 
