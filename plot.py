@@ -105,7 +105,7 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 	    ymin, ymax = opts["yaxis_range"]
 	else: 	
 		ymin, ymax = 0., get_stack_maximum(data,stack,opts)
-		ymax = 1.3*ymax if opts["do_stack"] else 1.00*ymax
+		ymax = 1.5*ymax if opts["do_stack"] else 1.00*ymax
 	stack.SetMaximum(ymax)
 
 
@@ -116,6 +116,7 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 	if opts["xaxis_range"] : stack.GetXaxis().SetRangeUser( *opts["xaxis_range"])	
 
 	if opts["yaxis_label"]: stack.GetHistogram().GetYaxis().SetTitle(opts["yaxis_label"])
+	if opts["yaxis_label_size"]: stack.GetHistogram().GetYaxis().SetLabelSize(opts["yaxis_label_size"])
 	if opts["yaxis_title_size"]: stack.GetHistogram().GetYaxis().SetTitleSize(opts["yaxis_title_size"])
 	if opts["yaxis_title_offset"] : stack.GetHistogram().GetYaxis().SetTitleOffset(opts["yaxis_title_offset"]) 
 
@@ -155,6 +156,7 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 
 	# misc
 	draw_cms_lumi(c1, opts)
+	draw_extra_stuff(c1, opts)
 	pad_main.cd()
 
 	# legend, some unfortunate hardcoding
@@ -165,38 +167,39 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 	opts["legend_scaley"]   = 0.9
 	opts["legend_border"]   = False
 	opts["legend_rounded"]  = False
-	legend = get_legend(opts)
-	sig_opt = "F"
-	legend.AddEntry(sigs[0],signal_labels[0],sig_opt) #1
-	legend.AddEntry(sigs[1],signal_labels[1],sig_opt) #2
-	legend.AddEntry(sigs[2],signal_labels[2],sig_opt) #3
-	legend.AddEntry(sigs[3],signal_labels[3],sig_opt) #4
-	legend.Draw()
+	#legend = get_legend(opts)
+	#sig_opt = "F"
+	#legend.AddEntry(sigs[0],signal_labels[0],sig_opt) #1
+	#legend.AddEntry(sigs[1],signal_labels[1],sig_opt) #2
+	#legend.AddEntry(sigs[2],signal_labels[2],sig_opt) #3
+	#legend.AddEntry(sigs[3],signal_labels[3],sig_opt) #4
+	#legend.Draw()
 
 	# data leg
-	opts["legend_ncolumns"]  = 1 #if len(bgs) >= 4 else 1
-	opts["legend_alignment"] = "topmiddle"
-	opts["legend_smart"]    = True
-	opts["legend_scalex"]   = 0.8
-	opts["legend_scaley"]   = 0.45
-	legend2 = get_legend(opts)
-	legend2.AddEntry(data,"Data","pl") #1
-	legend2.AddEntry(total,"Stat. Uncert.","f") #2
-	legend2.Draw()
+	#opts["legend_ncolumns"]  = 1 #if len(bgs) >= 4 else 1
+	#opts["legend_alignment"] = "topleft"
+	#opts["legend_smart"]    = True
+	#opts["legend_scalex"]   = 0.8
+	#opts["legend_scaley"]   = 0.45
+	#legend2 = get_legend(opts)
+	#legend2.Draw()
 
 	# bkg leg, some unfortunate hardcoding
-	opts["legend_ncolumns"]  = 2 #if len(bgs) >= 4 else 1
+	opts["legend_ncolumns"]  = 4 #if len(bgs) >= 4 else 1
 	opts["legend_alignment"] = "topright"
 	opts["legend_smart"]    = True
-	opts["legend_scalex"]   = 1.4
-	opts["legend_scaley"]   = 0.8
+	opts["legend_scalex"]   = 2.5
+	opts["legend_scaley"]   = 0.6
 	bkg_opt = "F"
 	legend3 = get_legend(opts)
-	legend3.AddEntry(bgs[3],legend_labels[3],bkg_opt) #1, gamma
-	legend3.AddEntry(bgs[0],legend_labels[0],bkg_opt) #2
-	legend3.AddEntry(bgs[1],legend_labels[1],bkg_opt) #1, gamma
+	legend3.AddEntry(data,"Data","pl") #0 
+	legend3.AddEntry(sigs[0],signal_labels[0],bkg_opt) #1 
 	legend3.AddEntry(bgs[4],legend_labels[4],bkg_opt) #2
-	legend3.AddEntry(bgs[2],legend_labels[2],bkg_opt) #2
+	legend3.AddEntry(bgs[3],legend_labels[3],bkg_opt) #3
+	legend3.AddEntry(total,"Stat. Uncert.","f") #0
+	legend3.AddEntry(bgs[0],legend_labels[0],bkg_opt) #1
+	legend3.AddEntry(bgs[1],legend_labels[1],bkg_opt) #2
+	legend3.AddEntry(bgs[2],legend_labels[2],bkg_opt) #3
 	legend3.Draw()
 
 	
@@ -245,11 +248,11 @@ def makePlot(sr, name , dirname, extraoptions={}):
 	data_fname = "{}/data.root".format(input_dir)
 	
 	bkg_fnames = [
-	    "{}/photon.root".format(input_dir),
-	    "{}/qflip.root".format(input_dir),
-	    "{}/fakes.root".format(input_dir), # may want to take fakes from data
-	    "{}/lostlep.root".format(input_dir),
+		"{}/lostlep.root".format(input_dir),
+		"{}/qflip.root".format(input_dir),
 	    "{}/prompt.root".format(input_dir),
+	    "{}/fakes.root".format(input_dir), # may want to take fakes from data
+	    "{}/photon.root".format(input_dir),
 	    ]
 
 	# background file names
@@ -266,11 +269,11 @@ def makePlot(sr, name , dirname, extraoptions={}):
 	sigs = getHistos(sig_fnames,histname)
 
 	legend_labels = [
-		"#gamma#rightarrowl",
-		"Charge mis-id",
-		"Non-prompt leptons",
-		"Lost lep/three leptons",
+		"Lost/three leptons",
+		"Charge misassignment",
 		"Irreducible"
+		"Nonprompt leptons",
+		"#gamma#rightarrowleptons",
 		]
 	signal_labels = [
 		"WWW",
@@ -306,11 +309,14 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	    ]
 
 	# background file names
+	#sig_fnames = [
+	#    "{}/www.root".format(input_dir),
+	#    "{}/wwz.root".format(input_dir),
+	#    "{}/wzz.root".format(input_dir), 
+	#    "{}/zzz.root".format(input_dir),
+	#	]
 	sig_fnames = [
-	    "{}/www.root".format(input_dir),
-	    "{}/wwz.root".format(input_dir),
-	    "{}/wzz.root".format(input_dir), 
-	    "{}/zzz.root".format(input_dir),
+	    "{}/vvv.root".format(input_dir),
 		]
 
 	# get histos
@@ -326,18 +332,32 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 		"Lost lep/three leptons",
 		"Irreducible"
 		]
+	#signal_labels = [
+	#	"WWW",
+	#	"WWZ",
+	#	"WZZ",
+	#	"ZZZ"
+	#	]
 	signal_labels = [
-		"WWW",
-		"WWZ",
-		"WZZ",
-		"ZZZ"
+		"VVV",
 		]
+
+	# figure out extra text here
+	txt = ""
+	if "SRSSPreSel"   in selname: txt = "SS N_{jet}=2 preselection"
+	if "SRSS1JPreSel" in selname: txt = "SS N_{jet}=1 preselection"
+	if "SR0SFOS"      in selname: txt = "0SFOS channel"
+	if "WZCRSS"       in selname: txt = "SS N_{jet}=2 WZ control region"
+	if "CRBTag0SFOS"  in selname: txt = "0SFOS b-tag control region"
+	if "CRBTagSS"     in selname: txt = "SS N_{jet}=2 b-tag control region"
+	if "CRBTagSS1J"   in selname: txt = "SS N_{jet}=1 b-tag control region"
 
 	histname = "{}__{}".format(selname,name)
 	options = {
 		"output_name": dirname + "/" + histname + ".png",
 		"do_ratio": True,
 		"stack_sig": True,
+		"extra_text": txt,
 		}
 	options.update(extraoptions)
 
@@ -352,36 +372,36 @@ def makeSS2Jplots(dirname):
 	#
 	# 2j SS Kin selection 
 	#
-	srs = ["SRSSeeKinSel","SRSSemKinSel","SRSSmmKinSel"]
-	
+	#srs = ["SRSSeeKinSel","SRSSemKinSel","SRSSmmKinSel"]
+	#sel = "SRSSKinSel"
+	#srs = ["SRSSeePreSel","SRSSemPreSel","SRSSmmPreSel"]
+	#sel = "SRSSPreSel"
+	srs = ["SRSSee","SRSSem","SRSSmm"]
+	sel = "SRSS"
+
 	# Mjj
 	options = {
 	 "yaxis_label": "Events",
 	 "xaxis_label": "M_{jj} [GeV]",
-	 "nbins": 20,
+	 "nbins": 15,
 	}
-	makePlotMultipleSRs(srs, "SRSS2jKinSel", "Mjj" , dirname, options)
-	
-	#
-	# 2j SS Preselection 
-	#
-	srs = ["SRSSeePreSel","SRSSemPreSel","SRSSmmPreSel"]
+	makePlotMultipleSRs(srs, sel, "Mjj" , dirname, options)
 	
 	# MET 
 	options = {
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{jj} [GeV]",
-	 "nbins": 20,
+	 "xaxis_label": "E_{T}^{miss} [GeV]",
+	 "nbins": 15,
 	}
-	makePlotMultipleSRs(srs, "SRSSPreSel", "Mjj" , dirname, options)
+	makePlotMultipleSRs(srs, sel, "MET" , dirname, options)
 	
 	#MTmax 
 	options = {
 	 "yaxis_label": "Events",
 	 "xaxis_label": "M_{T}^{max} [GeV]",
-	 "nbins": 20,
+	 "nbins": 15,
 	}
-	makePlotMultipleSRs(srs, "SRSSPreSel", "MTmax" , dirname, options)
+	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
 	return
 
 def makeSS1Jplots(dirname):
@@ -557,11 +577,11 @@ def makeFakeCRplots(dirname):
 
 # Plot things...
 dirname = "plots"
-#makeSS2Jplots(dirname)
-#makeSS1Jplots(dirname)
-#make0SFOSplots(dirname)
-#
-#makeWZCRSSplots(dirname)
+makeSS2Jplots(dirname)
+makeSS1Jplots(dirname)
+make0SFOSplots(dirname)
+
+makeWZCRSSplots(dirname)
 makeFakeCRplots(dirname)
 
 # test SS njets 

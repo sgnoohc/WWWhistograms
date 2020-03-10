@@ -39,14 +39,14 @@ class Options(object):
             # Canvas
             "canvas_width": {"type": "Int", "desc": "width of TCanvas in pixel", "default": 700, "kinds": ["1dratio","graph","2d"], },
             "canvas_height": {"type": "Int", "desc": "height of TCanvas in pixel", "default": 800, "kinds": ["1dratio","graph","2d"], },
-            "canvas_main_y1": {"type": "Float", "desc": "main plot tpad y1", "default": 0.25, "kinds": ["1dratio","graph","2d"], },
+            "canvas_main_y1": {"type": "Float", "desc": "main plot tpad y1", "default": 0.28, "kinds": ["1dratio","graph","2d"], },
             "canvas_main_topmargin": {"type": "Float", "desc": "ratio plot top margin", "default": 0.1, "kinds": ["1dratio"], },
             "canvas_main_bottommargin": {"type": "Float", "desc": "ratio plot bottom margin", "default": 0.05, "kinds": ["1dratio"], },
             "canvas_main_rightmargin": {"type": "Float", "desc": "ratio plot right margin", "default": 0.05, "kinds": ["1dratio"], },
             "canvas_main_leftmargin": {"type": "Float", "desc": "ratio plot left margin", "default": 0.16, "kinds": ["1dratio"], },
-            "canvas_ratio_y2": {"type": "Float", "desc": "ratio tpad y2", "default": 0.25, "kinds": ["1dratio","graph","2d"], },
+            "canvas_ratio_y2": {"type": "Float", "desc": "ratio tpad y2", "default": 0.28, "kinds": ["1dratio","graph","2d"], },
             "canvas_ratio_topmargin": {"type": "Float", "desc": "ratio plot top margin", "default": 0.05, "kinds": ["1dratio"], },
-            "canvas_ratio_bottommargin": {"type": "Float", "desc": "ratio plot bottom margin", "default": 0.35, "kinds": ["1dratio"], },
+            "canvas_ratio_bottommargin": {"type": "Float", "desc": "ratio plot bottom margin", "default": 0.4, "kinds": ["1dratio"], },
             "canvas_ratio_rightmargin": {"type": "Float", "desc": "ratio plot right margin", "default": 0.05, "kinds": ["1dratio"], },
             "canvas_ratio_leftmargin": {"type": "Float", "desc": "ratio plot left margin", "default": 0.16, "kinds": ["1dratio"], },
             "canvas_tick_one_side": {"type": "Boolean", "desc": "ratio plot left margin", "default": False, "kinds": ["1dratio"], },
@@ -76,12 +76,12 @@ class Options(object):
             "yaxis_label": { "type": "String", "desc": "label for y axis", "default": "Events", "kinds": ["1dratio","graph","2d"], },
             "zaxis_label": { "type": "String", "desc": "label for z axis", "default": "", "kinds": ["2d"], },
 
-            "xaxis_label_size_scale": { "type": "Float", "desc": "size of fonts for x axis", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
-            "yaxis_label_size_scale": { "type": "Float", "desc": "size of fonts for y axis", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
-            "zaxis_label_size_scale": { "type": "Float", "desc": "size of fonts for z axis", "default": 1.0, "kinds": ["2d"], },
+            "xaxis_label_size": { "type": "Float", "desc": "size of fonts for x axis", "default": 0.045, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_label_size": { "type": "Float", "desc": "size of fonts for y axis", "default": 0.045, "kinds": ["1dratio","graph","2d"], },
+            "zaxis_label_size": { "type": "Float", "desc": "size of fonts for z axis", "default": 0.045, "kinds": ["2d"], },
 
             "xaxis_title_size": { "type": "Float", "desc": "size of fonts for x axis title", "default": None, "kinds": ["1dratio","graph","2d"], },
-            "yaxis_title_size": { "type": "Float", "desc": "size of fonts for y axis title", "default": 0.06, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_title_size": { "type": "Float", "desc": "size of fonts for y axis title", "default": 0.065, "kinds": ["1dratio","graph","2d"], },
 
             "xaxis_title_offset": { "type": "Float", "desc": "offset of x axis title", "default": None, "kinds": ["1dratio","graph","2d"], },
             "yaxis_title_offset": { "type": "Float", "desc": "offset of y axis title", "default": 0.9, "kinds": ["1dratio","graph","2d"], },
@@ -115,8 +115,8 @@ class Options(object):
             "do_ratio": { "type": "Boolean", "desc": "draw ratio plot", "default": False, "kinds": ["1dratio"], },
             "ratio_name": { "type": "String", "desc": "name of ratio pad", "default": "Data/Pred.", "kinds": ["1dratio"], },
             "ratio_name_size": { "type": "Float", "desc": "size of the name on the ratio pad (e.g. data/MC)", "default": 0.18, "kinds": ["1dratio"], },
-            "ratio_label_size": { "type": "Float", "desc": "XY-axis label size", "default": 0.13, "kinds": ["1dratio"], },
-            "ratio_xaxis_title_offset": { "type": "Float", "desc": "offset to the x-axis titles", "default": 0.8, "kinds": ["1dratio"], },
+            "ratio_label_size": { "type": "Float", "desc": "XY-axis label size", "default": 0.12, "kinds": ["1dratio"], },
+            "ratio_xaxis_title_offset": { "type": "Float", "desc": "offset to the x-axis titles", "default": 0.85, "kinds": ["1dratio"], },
             "ratio_yaxis_title_offset": { "type": "Float", "desc": "offset to the y-axis titles", "default": 0.3, "kinds": ["1dratio"], },            
             "ratio_xaxis_label_offset": { "type": "Float", "desc": "offset to the x-axis labels (numbers)", "default": None, "kinds": ["1dratio"], },
             "ratio_yaxis_label_offset": { "type": "Float", "desc": "offset to the y-axis labels (numbers)", "default": None, "kinds": ["1dratio"], }, 
@@ -166,9 +166,9 @@ class Options(object):
             "hist_disable_xerrors": { "type": "Boolean", "desc": "Disable the x-error bars on data for 1D hists", "default": True, "kinds": ["1dratio"], },
 
             "extra_text": { "type": "List", "desc": "list of strings for textboxes", "default": [], "kinds": [ "1dratio","graph"], },
-            "extra_text_size": { "type": "Float", "desc": "size for extra text", "default": 0.04, "kinds": [ "1dratio","graph"], },
-            "extra_text_xpos": { "type": "Float", "desc": "NDC x position (0 to 1) for extra text", "default": 0.3, "kinds": [ "1dratio","graph"], },
-            "extra_text_ypos": { "type": "Float", "desc": "NDC y position (0 to 1) for extra text", "default": 0.87, "kinds": [ "1dratio","graph"], },
+            "extra_text_size": { "type": "Float", "desc": "size for extra text", "default": 0.03, "kinds": [ "1dratio","graph"], },
+            "extra_text_xpos": { "type": "Float", "desc": "NDC x position (0 to 1) for extra text", "default": 0.19, "kinds": [ "1dratio","graph"], },
+            "extra_text_ypos": { "type": "Float", "desc": "NDC y position (0 to 1) for extra text", "default": 0.79, "kinds": [ "1dratio","graph"], },
 
             "extra_lines": { "type": "List", "desc": "list of upto 7-tuples (x1,y1,x2,y2,style,width,color) for lines", "default": [], "kinds": [ "1dratio","graph"], },
 
@@ -258,6 +258,18 @@ def overflow(hist):
 	return hist
 
 
+def draw_extra_stuff(c1, opts):
+
+    if opts["extra_text"]:
+        t = ROOT.TLatex()
+        t.SetNDC()
+        t.SetTextAlign(12)
+        t.SetTextFont(42)
+        t.SetTextColor(ROOT.kBlack)
+        # t.SetTextSize(0.04)
+        t.SetTextSize(opts["extra_text_size"])
+        for itext, text in enumerate(opts["extra_text"].split(",")):
+            t.DrawLatex(opts["extra_text_xpos"],opts["extra_text_ypos"]-itext*5./4*t.GetTextSize(),text)
 
 
 def get_legend(opts):
@@ -310,7 +322,7 @@ def do_style_ratio(ratio, opts, tpad):
     #    high = min(mean+3*sigma,max(vals))+sigma/1e3
     #    opts["ratio_range"] = [low,high]
     ratio.SetMarkerStyle(20)
-    ratio.SetMarkerSize(0.8)
+    ratio.SetMarkerSize(1.0)
     ratio.SetLineWidth(2)
     ratio.SetTitle("")
     
@@ -399,6 +411,7 @@ def getMultipleSRHisto(fname,srs,selname,dist):
 	if "wwz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WWZ"    ) 
 	if "wzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WZZ"    ) 
 	if "zzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_ZZZ"    ) 
+	if "vvv"     in fname : hist_merged.SetName( selname + "__" + dist + "_VVV"    ) 
 
 	hist_merged.SetDirectory(0)
 	return hist_merged
@@ -417,6 +430,7 @@ def getHisto(fname,histname):
 	hist = froot.Get(histname)	
 	hist.SetDirectory(0)
 
+	print(fname) 
 	if "data"    in fname : hist.SetName( hist.GetName() + "_data"   )
 	if "photon"  in fname : hist.SetName( hist.GetName() + "_photon" )
 	if "qflip"   in fname : hist.SetName( hist.GetName() + "_qflip"  ) 
@@ -427,7 +441,7 @@ def getHisto(fname,histname):
 	if "wwz"     in fname : hist.SetName( hist.GetName() + "_WWZ"    ) 
 	if "wzz"     in fname : hist.SetName( hist.GetName() + "_WZZ"    ) 
 	if "zzz"     in fname : hist.SetName( hist.GetName() + "_ZZZ"    ) 
-
+	if "vvv"     in fname : hist.SetName( hist.GetName() + "_VVV"    )
 	return hist
 
 def getHistos(fnames,histname):
@@ -480,6 +494,7 @@ def background_style(hist,opts):
 	hist.GetYaxis().SetTitleOffset(0.5)
 	hist.GetYaxis().SetTitleSize(0.05)
 
+	#hist.SetLineColor(col)
 	hist.SetLineColor(ROOT.kBlack)
 	hist.SetMarkerColor(col)
 	hist.SetMarkerSize(0)
@@ -489,7 +504,9 @@ def background_style(hist,opts):
 
 def signal_style(hist,opts):
 	name = hist.GetName()
+	print(name)
 	col = ROOT.kBlack
+	if "VVV" in name : col = ROOT.kRed 
 	if "WWW" in name : col = ROOT.kRed 
 	if "WWZ" in name : col = ROOT.kBlue 
 	if "WZZ" in name : col = ROOT.kOrange-4 
