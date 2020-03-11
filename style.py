@@ -1,5 +1,6 @@
 import ROOT
 import os
+from array import array
 
 def setStyle(): 
 	ROOT.gROOT.SetBatch(1) # please don't open an Xwindow
@@ -84,7 +85,7 @@ class Options(object):
             "yaxis_title_size": { "type": "Float", "desc": "size of fonts for y axis title", "default": 0.065, "kinds": ["1dratio","graph","2d"], },
 
             "xaxis_title_offset": { "type": "Float", "desc": "offset of x axis title", "default": None, "kinds": ["1dratio","graph","2d"], },
-            "yaxis_title_offset": { "type": "Float", "desc": "offset of y axis title", "default": 0.9, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_title_offset": { "type": "Float", "desc": "offset of y axis title", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
 
             "xaxis_label_offset_scale": { "type": "Float", "desc": "x axis tickmark labels offset", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
             "yaxis_label_offset_scale": { "type": "Float", "desc": "y axis tickmark labels offset", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
@@ -109,6 +110,7 @@ class Options(object):
             "yaxis_range": { "type": "List", "desc": "2 elements to specify y axis range", "default": [], "kinds": ["1dratio","graph","2d"], },
             "zaxis_range": { "type": "List", "desc": "2 elements to specify z axis range", "default": [], "kinds": ["2d"], },
 
+            "xaxis_bins":{"type":"List","desc":"List containing bin labels instead of text","default":[],"kinds":["1dratio","graph","2dratio"]},
             "xaxis_bin_text_labels":{"type":"List","desc":"List containing bin labels instead of text","default":[],"kinds":["1dratio","graph","2dratio"]},
 
             # Ratio
@@ -117,7 +119,7 @@ class Options(object):
             "ratio_name_size": { "type": "Float", "desc": "size of the name on the ratio pad (e.g. data/MC)", "default": 0.18, "kinds": ["1dratio"], },
             "ratio_label_size": { "type": "Float", "desc": "XY-axis label size", "default": 0.12, "kinds": ["1dratio"], },
             "ratio_xaxis_title_offset": { "type": "Float", "desc": "offset to the x-axis titles", "default": 0.85, "kinds": ["1dratio"], },
-            "ratio_yaxis_title_offset": { "type": "Float", "desc": "offset to the y-axis titles", "default": 0.3, "kinds": ["1dratio"], },            
+            "ratio_yaxis_title_offset": { "type": "Float", "desc": "offset to the y-axis titles", "default": 0.35, "kinds": ["1dratio"], },            
             "ratio_xaxis_label_offset": { "type": "Float", "desc": "offset to the x-axis labels (numbers)", "default": None, "kinds": ["1dratio"], },
             "ratio_yaxis_label_offset": { "type": "Float", "desc": "offset to the y-axis labels (numbers)", "default": None, "kinds": ["1dratio"], }, 
             "ratio_range": { "type": "List", "desc": "pair for min and max y-value for ratio; default auto re-sizes to 3 sigma range", "default": [0,2], "kinds": ["1dratio"], },
@@ -430,7 +432,6 @@ def getHisto(fname,histname):
 	hist = froot.Get(histname)	
 	hist.SetDirectory(0)
 
-	print(fname) 
 	if "data"    in fname : hist.SetName( hist.GetName() + "_data"   )
 	if "photon"  in fname : hist.SetName( hist.GetName() + "_photon" )
 	if "qflip"   in fname : hist.SetName( hist.GetName() + "_qflip"  ) 
@@ -471,6 +472,12 @@ def data_style(hist,opts):
 		bins_now = hist.GetNbinsX() 
 		rebin_fact = int(bins_now/(opts["nbins"]))
 		hist.Rebin(rebin_fact)
+	if opts["xaxis_bins"]:
+		nbins = len(opts["xaxis_bins"])-1
+		hist =hist.Rebin( nbins,hist.GetName()+"_", array("d",opts["xaxis_bins"]) )
+	if opts["xaxis_bin_text_labels"]:
+		for i in range(len( opts["xaxis_bin_text_labels"])):
+			hist.GetXaxis().SetBinLabel(i+1,opts["xaxis_bin_text_labels"][i])
 
 	return hist
 
@@ -488,7 +495,13 @@ def background_style(hist,opts):
 		rebin_fact = int(bins_now/(opts["nbins"]))
 		#print("REBIN {}".format(rebin_fact))
 		hist.Rebin(rebin_fact)
-
+	if opts["xaxis_bins"]:
+		nbins = len(opts["xaxis_bins"])-1
+		hist =hist.Rebin( nbins,hist.GetName()+"_", array("d",opts["xaxis_bins"]) )
+	if opts["xaxis_bin_text_labels"]:
+		for i in range(len( opts["xaxis_bin_text_labels"])):
+			hist.GetXaxis().SetBinLabel(i+1,opts["xaxis_bin_text_labels"][i])
+		hist.GetXaxis().SetLabelSize(0.08)
 	if opts["yaxis_label"]: hist.GetYaxis().SetTitle(opts["yaxis_label"])
 
 	hist.GetYaxis().SetTitleOffset(0.5)
@@ -504,7 +517,7 @@ def background_style(hist,opts):
 
 def signal_style(hist,opts):
 	name = hist.GetName()
-	print(name)
+	#print(name)
 	col = ROOT.kBlack
 	if "VVV" in name : col = ROOT.kRed 
 	if "WWW" in name : col = ROOT.kRed 
@@ -520,17 +533,22 @@ def signal_style(hist,opts):
 		hist.SetMarkerSize(0)
 		hist.SetFillColorAlpha(col,1.0) # may want option for this
 	else : 
-		hsig.SetMarkerStyle(1) # 2 has errors
-		hsig.SetMarkerColor(col)
-		hsig.SetLineWidth(3)
-		hsig.SetMarkerSize(0.8)
-		hsig.SetLineColor(col)
+		hist.SetMarkerStyle(1) # 2 has errors
+		hist.SetMarkerColor(col)
+		hist.SetLineWidth(3)
+		hist.SetMarkerSize(0.8)
+		hist.SetLineColor(col)
      
 	if opts["nbins"]: 
 		bins_now = hist.GetNbinsX() 
 		rebin_fact = int(bins_now/(opts["nbins"]))
 		hist.Rebin(rebin_fact)
-
+	if opts["xaxis_bins"]:
+		nbins = len(opts["xaxis_bins"])-1
+		hist =hist.Rebin( nbins,hist.GetName()+"_", array("d",opts["xaxis_bins"]) )
+	if opts["xaxis_bin_text_labels"]:
+		for i in range(len( opts["xaxis_bin_text_labels"])):
+			hist.GetXaxis().SetBinLabel(i+1,opts["xaxis_bin_text_labels"][i])
 
 	return hist
 
