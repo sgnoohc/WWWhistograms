@@ -30,7 +30,7 @@ def draw_cms_lumi(c1, opts ):#, _persist=[]):
 	#_persist.append(t)
 	return
 
-def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , options ): #, _persist = []):
+def makePlot1DSafe( histname, data, sigs, signal_labels, bgs, legend_labels , options ): #, _persist = []):
 
 	opts = Options(options, kind="1dratio")
 
@@ -248,7 +248,7 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 
 	save(c1, opts)
 	return
-	
+
 def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , options ): #, _persist = []):
 
 	opts = Options(options, kind="1dratio")
@@ -310,7 +310,7 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 	for isig,sig in reversed(list(enumerate(sigs))):
 		if opts["stack_sig"]:
 			signal_style(sig,opts)
-			total.Add(sig)
+			#total.Add(sig)
 			stack.Add(sig)
 			
 			#legend.AddEntry(sig, signal_labels[isig], "F")
@@ -354,7 +354,8 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 
 	ratio_err = total.Clone("ratio_err")
 	#ratio_err.Sumw2()
-	ratio_err.Divide(total)
+	ratio_err.Add(total,-1)
+	#ratio_err.Divide(total)
 	ratio_err.SetFillColor(ROOT.kBlack)
 	#ratio_err.SetFillColorAlpha(ROOT.kGray+2,0.4)
 	ratio_err.SetFillStyle(opts["ratio_err_fill_style"])
@@ -443,23 +444,33 @@ def makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels , option
 		numer = data.Clone("numer")
 		denom = total.Clone("sumbgs")
 		ratio = numer.Clone("ratio")
-		if opts["ratio_binomial_errors"]:
-		    ratio.Divide(numer,denom,1,1,"b")
-		else:
-		    ratio.Divide(denom)
+		ratio.Add(denom,-1)
 
+		#if opts["ratio_binomial_errors"]:
+		#    ratio.Divide(numer,denom,1,1,"b")
+		#else:
+		#    ratio.Divide(denom)
+
+		
 		ratio.Draw("axis")
+		sigs[0].Draw("hist same")
 		ratio_err.Draw("E2 SAME")
+		ymax = max(ratio.GetMaximum(),sigs[0].GetMaximum())*1.1
+		ymin = -ymax*0.5
 		do_style_ratio(ratio, opts, pad_ratio)
+		ratio.GetYaxis().SetRangeUser(ymin,ymax)
+		ratio.GetYaxis().SetTitle("Data-Bkg.")
+
 		ratio.Draw("same PE X0")
 
 		line = ROOT.TLine()
 		line.SetLineColor(ROOT.kGray+2)
 		line.SetLineWidth(1)
-		for yval in opts["ratio_horizontal_lines"]:
-		    
-		    if opts["xaxis_range"]: line.DrawLine(opts["xaxis_range"][0],yval,opts["xaxis_range"][1],yval)
-		    else: line.DrawLine(ratio.GetXaxis().GetBinLowEdge(1),yval,ratio.GetXaxis().GetBinUpEdge(ratio.GetNbinsX()),yval)
+		#for yval in opts["ratio_horizontal_lines"]:
+		yval = 0
+		if opts["xaxis_range"]: line.DrawLine(opts["xaxis_range"][0],yval,opts["xaxis_range"][1],yval)
+		else: line.DrawLine(ratio.GetXaxis().GetBinLowEdge(1),yval,ratio.GetXaxis().GetBinUpEdge(ratio.GetNbinsX()),yval)
+		#line.DrawLine(ratio.GetXaxis().GetBinLowEdge(1),yval,ratio.GetXaxis().GetBinUpEdge(ratio.GetNbinsX()),yval)
 
 		pad_main.cd()
 
