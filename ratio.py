@@ -174,9 +174,10 @@ def makePlot1Dratio( histname, data, sigs, signal_labels, bgs, legend_labels , o
 	legend3.AddEntry(bgs[0],legend_labels[0],bkg_opt) #3
 	legend3.AddEntry(bgs[1],legend_labels[1],bkg_opt) #1
 	legend3.AddEntry(total,"Stat. Uncert.","f") #0
-	legend3.AddEntry(bgs[4],legend_labels[4],bkg_opt) #1
-	legend3.AddEntry(bgs[2],legend_labels[2],bkg_opt) #2
-	legend3.AddEntry(bgs[3],legend_labels[3],bkg_opt) #3
+	if len(bgs) > 2:
+		legend3.AddEntry(bgs[4],legend_labels[4],bkg_opt) #1
+		legend3.AddEntry(bgs[2],legend_labels[2],bkg_opt) #2
+		legend3.AddEntry(bgs[3],legend_labels[3],bkg_opt) #3
 	#
 	#legend3.AddEntry(data,"Data","pl") #0 
 	#legend3.AddEntry(sigs[0],signal_labels[0],bkg_opt) #1 

@@ -14,7 +14,7 @@ setStyle()
 def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 
 
-	input_dir = "hists/combineyearsLoose_v5.3.3/2020_03_09_1500"
+	input_dir = "/nfs-7/userdata/phchang/vvvauxplots/WWWhists/combineyearsLoose_v5.3.3/2020_03_09_1500/"
 	
 	data_fname = "{}/data.root".format(input_dir)
 	
@@ -63,16 +63,16 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	# figure out extra text here
 	txt = ""
 	if "SRSS"		  in selname: txt = "2 same-sign leptons"
-	if "SRSS2J" 	  in selname: txt = "SS N_{jet}=2"
-	if "SRSSPreSel"   in selname: txt = "SS N_{jet}=2 preselection"
-	if "SRSSKinSel"	  in selname: txt = "SS N_{jet}=2 SRs" 
-	if "SRSSKinSelnoee"	  in selname: txt = "SS N_{jet}=2 e#mu #mu#mu SRs" 
-	if "SRSS1JPreSel" in selname: txt = "SS N_{jet}=1 preselection"
+	if "SRSS2J" 	  in selname: txt = "SS n_{j}=2"
+	if "SRSSPreSel"   in selname: txt = "SS n_{j}=2 preselection"
+	if "SRSSKinSel"	  in selname: txt = "SS n_{j}=2 SRs" 
+	if "SRSSKinSelnoee"	  in selname: txt = "SS n_{j}=2 e#mu #mu#mu SRs" 
+	if "SRSS1JPreSel" in selname: txt = "SS n_{j}=1 preselection"
 	if "SR0SFOS"      in selname: txt = "0SFOS channel"
-	if "WZCRSS"       in selname: txt = "SS N_{jet}=2 WZ control region"
+	if "WZCRSS"       in selname: txt = "SS n_{j}=2 WZ control region"
 	if "CRBTag0SFOS"  in selname: txt = "0SFOS b-tag control region"
-	if "CRBTagSS"     in selname: txt = "SS N_{jet}=2 b-tag control region"
-	if "CRBTagSS1J"   in selname: txt = "SS N_{jet}=1 b-tag control region"
+	if "CRBTagSS"     in selname: txt = "SS n_{j}=2 b-tag control region"
+	if "CRBTagSS1J"   in selname: txt = "SS n_{j}=1 b-tag control region"
 
 	if "SR2SFOSPreSel" in selname : txt = "2SFOS preselection"
 	if "SR1SFOSPreSel" in selname : txt = "1SFOS preselection"
@@ -81,7 +81,7 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	if "SR2SFOSPreSelBDT" in selname : txt = "2SFOS BDT preselection"
 	if "SR1SFOSPreSelBDT" in selname : txt = "1SFOS BDT preselection"
 	if "SR0SFOSPreSelBDT" in selname : txt = "0SFOS BDT preselection"
-	if "SRSSPreSelBDT" in selname : txt = "SS N_{jet}=2 BDT preselection"
+	if "SRSSPreSelBDT" in selname : txt = "SS n_{j}=2 BDT preselection"
 
 	if "Cut3LPreSel" in selname : txt = "3L preselection"
 
@@ -126,7 +126,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "E_{T}^{miss} [GeV]",
+	 "xaxis_label": "p_{T}^{miss} [GeV]",
 	 #"yaxis_range": [0,220],
 	 "nbins": 20,
 	}
@@ -136,7 +136,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -156,7 +156,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale": 5,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{jj} [GeV]",
+	 "xaxis_label": "m_{jj} [GeV]",
 	 "nbins": 10,
 	 #"xaxis_range": [0,500]
 	}
@@ -177,7 +177,7 @@ def makeSS1Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "E_{T}^{miss} [GeV]",
+	 "xaxis_label": "p_{T}^{miss} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MET" , dirname, options)
@@ -187,7 +187,7 @@ def makeSS1Jplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,35],
-	 "xaxis_label": "M_{lj}^{min} [GeV]",
+	 "xaxis_label": "m_{lj}^{min} [GeV]",
 	 "nbins": 10,
 	 "yaxis_range": [0,500],
 	}
@@ -208,7 +208,7 @@ def makeSS1Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -233,7 +233,7 @@ def make0SFOSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 "yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -264,7 +264,7 @@ def make0SFOSplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{b-jets}",
+	 "xaxis_label": "n_{b}",
 	 "xaxis_range": [0,4],
 	 "xaxis_bin_text_labels": ["0","1","2","3"],
 	}
@@ -304,7 +304,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{jj} [GeV]",
+	 "xaxis_label": "m_{jj} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "Mjj" , dirname, options)
@@ -314,7 +314,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{3rd} [GeV]",
+	 "xaxis_label": "m_{T}^{3rd} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "MT3rd" , dirname, options)
@@ -324,7 +324,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -334,7 +334,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{ll}^{SFOS} [GeV]",
+	 "xaxis_label": "m_{ll}^{SFOS} [GeV]",
 	 "xaxis_range": [70,110],
 	 "nbins": 50,
 	}
@@ -381,7 +381,7 @@ def makeFakeCRplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 "yaxis_range": [0,35],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 10,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -394,7 +394,7 @@ def makeFakeCRplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,35],
-	 "xaxis_label": "M_{lj}^{min}",
+	 "xaxis_label": "m_{lj}^{min}",
 	 "nbins": 15,
 	 #"xaxis_range": [0,4.0],
 	}
@@ -437,7 +437,7 @@ def makeSSinclusive(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{jets}",
+	 "xaxis_label": "n_{j}",
 	 "xaxis_range": [0,5],
 	 "xaxis_bin_text_labels": ["0","1","2","3","4"],
 	}
@@ -446,7 +446,7 @@ def makeSSinclusive(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{b-jets}",
+	 "xaxis_label": "n_{b}",
 	 "ratio_ndivisions" : 505,
 	 "xaxis_ndivisions" : 505,
 	 "xaxis_range": [0,4],
@@ -543,6 +543,221 @@ def makeBDTPlots():
 
 	return
 
+def makePlotMultipleSRs_4lep(srs, selname, name , dirname, extraoptions={}):
+
+
+	input_dir = "/nfs-7/userdata/phchang/vvvauxplots/outputs/WVZMVA2016_v0.1.21_WVZMVA2017_v0.1.21_WVZMVA2018_v0.1.21/y2016_v9_nom_y2017_v9_nom_y2018_v9_nom/"
+	
+	data_fname = "{}/data.root".format(input_dir)
+	
+	bkg_fnames = [
+		"{}/zz.root".format(input_dir),
+		"{}/ttz.root".format(input_dir), # may want to take fakes from data
+		"{}/twz.root".format(input_dir),
+	    "{}/wz.root".format(input_dir),
+	    "{}/other.root".format(input_dir),
+	    ]
+
+	# background file names
+	#sig_fnames = [
+	#    "{}/www.root".format(input_dir),
+	#    "{}/wwz.root".format(input_dir),
+	#    "{}/wzz.root".format(input_dir), 
+	#    "{}/zzz.root".format(input_dir),
+	#	]
+	sig_fnames = [
+	    "{}/vvv.root".format(input_dir),
+		]
+
+	# get histos
+	data  = getMultipleSRHisto(data_fname ,srs,selname,name)
+	bgs   = getMultipleSRHistos(bkg_fnames,srs,selname,name)
+	sigs  = getMultipleSRHistos(sig_fnames,srs,selname,name)
+
+
+	legend_labels = [
+		"ZZ",
+		"t#bar{t}Z",
+		"tWZ",
+		"WZ",
+		"Other",
+		]
+	#signal_labels = [
+	#	"WWW",
+	#	"WWZ",
+	#	"WZZ",
+	#	"ZZZ"
+	#	]
+	signal_labels = [
+		"VVV",
+		]
+
+	# figure out extra text here
+	txt = ""
+	if "ChannelOnZ"		  in selname: txt = "ZZ control region"
+	if "ChannelBTagEMu"		  in selname: txt = "n_{b} #geq 1 t#bar{t}Z control region"
+
+	histname = "{}__{}".format(selname,name)
+	options = {
+		"output_name": dirname + "/" + histname + "_ratio.png",
+		"do_ratio": True,
+		"stack_sig": True,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: 
+		options.update({"yaxis_title_offset": 1.2})
+		options.update({"ratio_yaxis_title_offset": 0.4})
+
+	makePlot1Dratio( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	options = {
+		"output_name": dirname + "/" + histname + "_compare.png",
+		"do_ratio": False,
+		"stack_sig": False,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: options.update({"yaxis_title_offset": 1.4})
+
+	makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	return 
+
+def makeZZCR4Lplots(dirname):
+	#
+	# 3l - preselelctin
+	#
+	srs = ["ChannelOnZ"]
+	sel = "ChannelOnZ"
+	scale = 5
+
+	# MTmax 
+	options = {
+	 "signal_scale" : scale,
+	 "yaxis_label": "Events",
+	 #"yaxis_range": [0,25],
+	 "xaxis_label": "m_{ll} [GeV]",
+	 "nbins": 45,
+	}
+	makePlotMultipleSRs_4lep(srs, sel, "MET" , dirname, options)
+
+def makePlotMultipleSRs_56lep(srs, selname, name , dirname, extraoptions={}):
+
+	input_dir = "/nfs-7/userdata/phchang/vvvauxplots/56L_y2016_20200312_v1_y2017_20200312_v1_y2018_20200312_v1"
+	
+	data_fname = "{}/data.root".format(input_dir)
+	
+	bkg_fnames = [
+		"{}/zz.root".format(input_dir),
+		"{}/nonzz.root".format(input_dir),
+	    ]
+
+	# background file names
+	#sig_fnames = [
+	#    "{}/www.root".format(input_dir),
+	#    "{}/wwz.root".format(input_dir),
+	#    "{}/wzz.root".format(input_dir), 
+	#    "{}/zzz.root".format(input_dir),
+	#	]
+	sig_fnames = [
+	    "{}/vvv.root".format(input_dir),
+		]
+
+	# get histos
+	data  = getMultipleSRHisto(data_fname ,srs,selname,name)
+	bgs   = getMultipleSRHistos(bkg_fnames,srs,selname,name)
+	sigs  = getMultipleSRHistos(sig_fnames,srs,selname,name)
+
+
+	legend_labels = [
+		"ZZ",
+		"Other",
+		]
+	#signal_labels = [
+	#	"WWW",
+	#	"WWZ",
+	#	"WZZ",
+	#	"ZZZ"
+	#	]
+	signal_labels = [
+		"VVV",
+		]
+
+# FiveLeptons__MT5th, FiveLeptons__ZcandidateOne, FiveLeptons__ZcandidateTwo, SixLeptons__SumPt
+
+	# figure out extra text here
+	txt = ""
+	if "FiveLeptons"		  in selname: txt = "5 leptons preselection"
+	if "SixLeptons"		  in selname: txt = "6 leptons preselection"
+
+	histname = "{}__{}".format(selname,name)
+	options = {
+		"output_name": dirname + "/" + histname + "_ratio.png",
+		"do_ratio": True,
+		"stack_sig": True,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: 
+		options.update({"yaxis_title_offset": 1.2})
+		options.update({"ratio_yaxis_title_offset": 0.4})
+
+	makePlot1Dratio( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	options = {
+		"output_name": dirname + "/" + histname + "_compare.png",
+		"do_ratio": False,
+		"stack_sig": False,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: options.update({"yaxis_title_offset": 1.4})
+
+	makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	return 
+
+def make56Lplots(dirname):
+	#
+	# 5l
+	#
+	srs = ["FiveLeptons"]
+	sel = "FiveLeptons"
+	scale = 1
+
+	# MTmax 
+	options = {
+	 "signal_scale" : scale,
+	 "yaxis_label": "Events",
+	 #"yaxis_range": [0,25],
+	 "xaxis_label": "m_{T,5th} [GeV]",
+	 "nbins": 20,
+	}
+	makePlotMultipleSRs_56lep(srs, sel, "MT5th" , dirname, options)
+
+	#
+	# 6l
+	#
+	srs = ["SixLeptons"]
+	sel = "SixLeptons"
+	scale = 1
+
+	# MTmax 
+	options = {
+	 "signal_scale" : scale,
+	 "yaxis_label": "Events",
+	 "yaxis_range": [0,0.15],
+	 "xaxis_label": "#Sigma p_{T,lep} [GeV]",
+	 "nbins": 20,
+	}
+	makePlotMultipleSRs_4lep(srs, sel, "SumPt" , dirname, options)
+
+dirname = "plots_4l"
+
+makeZZCR4Lplots(dirname)
+
+
 
 # Plot things...
 dirname = "plots"
@@ -566,7 +781,7 @@ makePlotMultipleSRs(srs,sel,"nSFOS", dirname, options)
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"p_{T}^{3l}",
+ "xaxis_label":"p_{T}^{lll}",
  "xaxis_range":[0,200],
  "nbins": 40,
  #"yaxis_log": True,
@@ -580,7 +795,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"M_{T}^{3rd}",
+ "xaxis_label":"m_{T}^{3rd}",
  #"xaxis_range":[0,200],
  "nbins": 30,
  #"yaxis_log": True,
@@ -594,7 +809,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"M_{T}^{max}",
+ "xaxis_label":"m_{T}^{max}",
  #"xaxis_range":[0,200],
  "nbins": 30,
  #"yaxis_log": True,
@@ -608,7 +823,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"#Delta#phi(3l,E_{T}^{miss})",
+ "xaxis_label":"#Delta#phi(3l,p_{T}^{miss})",
  #"xaxis_range":[0,200],
  "nbins": 20,
  #"yaxis_log": True,
@@ -618,7 +833,7 @@ makePlotMultipleSRs(srs,sel,"DPhi3lMET", dirname, options)
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"p_{T}^{3l}",
+ "xaxis_label":"p_{T}^{lll}",
  "xaxis_range":[0,200],
  "nbins": 40,
  #"yaxis_log": True,
