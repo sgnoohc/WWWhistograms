@@ -147,7 +147,7 @@ class OptionsCompare(object):
 
             # CMS things
             "cms_label": {"type": "String", "desc": "E.g., 'Preliminary'; default hides label", "default": "Preliminary", "kinds": ["1dratio","graph","2d"]},
-            "lumi_value": {"type": "String", "desc": "E.g., 35.9; default hides lumi label", "default": "136.9", "kinds": ["1dratio","graph","2d"]},
+            "lumi_value": {"type": "String", "desc": "E.g., 35.9; default hides lumi label", "default": "137", "kinds": ["1dratio","graph","2d"]},
             "lumi_unit": {"type": "String", "desc": "Unit for lumi label", "default": "fb", "kinds": ["1dratio","graph","2d"]},
 
             # Misc
@@ -397,7 +397,7 @@ class Options(object):
 
             # CMS things
             "cms_label": {"type": "String", "desc": "E.g., 'Preliminary'; default hides label", "default": "Preliminary", "kinds": ["1dratio","graph","2d"]},
-            "lumi_value": {"type": "String", "desc": "E.g., 35.9; default hides lumi label", "default": "136.9", "kinds": ["1dratio","graph","2d"]},
+            "lumi_value": {"type": "String", "desc": "E.g., 35.9; default hides lumi label", "default": "137", "kinds": ["1dratio","graph","2d"]},
             "lumi_unit": {"type": "String", "desc": "Unit for lumi label", "default": "fb", "kinds": ["1dratio","graph","2d"]},
 
             # Misc
