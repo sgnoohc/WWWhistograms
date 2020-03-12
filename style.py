@@ -695,6 +695,7 @@ def getMultipleSRHisto(fname,srs,selname,dist):
 	elif "wzz"      in fname : hist_merged.SetName( selname + "__" + dist + "_WZZ"    ) 
 	elif "zzz"      in fname : hist_merged.SetName( selname + "__" + dist + "_ZZZ"    ) 
 	elif "vvv.root" in fname : hist_merged.SetName( selname + "__" + dist + "_VVV"    ) 
+	elif "nonzz"    in fname : hist_merged.SetName( selname + "__" + dist + "_nonzz"  ) 
 	elif "zz"       in fname : hist_merged.SetName( selname + "__" + dist + "_zz"     ) 
 	elif "ttz"      in fname : hist_merged.SetName( selname + "__" + dist + "_ttz"    ) 
 	elif "twz"      in fname : hist_merged.SetName( selname + "__" + dist + "_twz"    ) 
@@ -783,6 +784,7 @@ def background_style(hist,opts):
 	elif "fakes"   in name : col = 2005 
 	elif "lostlep" in name : col = 2003 
 	elif "prompt"  in name : col = 2001 
+	elif "nonzz"   in name : col = 920
 	elif "zz"      in name : col = 4020 
 	elif "ttz"     in name : col = 4305 
 	elif "twz"     in name : col = 4024 
