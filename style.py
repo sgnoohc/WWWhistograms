@@ -7,6 +7,258 @@ def setStyle():
 	ROOT.gStyle.SetOptStat(0)
 	return 
 
+
+class OptionsCompare(object):
+    """
+    The Options object is just a nice wrapper around a dictionary
+    with default values, some arithmetic, and warnings
+    >>> import plottery as ply
+    >>> # Passing d_opts1,d_opts2, or opts1 as the `options` kwarg to a plot
+    >>> # function will have the same effect
+    >>> d_opts1 = { "output_name": "test.pdf", "blah": 1, }
+    >>> d_opts2 = { "blah2": 2, }
+    >>> opts1 = ply.Options(d_opts1)
+    >>> # You can add a dict or another Options object to an Options object
+    >>> # to add new options or modify current ones
+    >>> print opts1+d_opts2
+    >>> print opts1+ply.Options(d_opts2)
+    """
+
+    def __init__(self, options={}, kind=None):
+
+        # if we pass in a plain dict, then do the usual
+        # thing, otherwise make a new options object
+        # if an Options object is passed in
+        if type(options) is dict:
+            self.options = options
+            self.kind = kind
+        else:
+            self.options = options.options
+            self.kind = options.kind
+
+        self.recognized_options = {
+
+            # Canvas
+            "signal_scale": {"type": "Int", "desc": "width of TCanvas in pixel", "default": 10, "kinds": ["1dratio","graph","2d"], },
+
+
+            "canvas_width": {"type": "Int", "desc": "width of TCanvas in pixel", "default": 800, "kinds": ["1dratio","graph","2d"], },
+            "canvas_height": {"type": "Int", "desc": "height of TCanvas in pixel", "default": 800, "kinds": ["1dratio","graph","2d"], },
+            "canvas_main_y1": {"type": "Float", "desc": "main plot tpad y1", "default": 0.28, "kinds": ["1dratio","graph","2d"], },
+            "canvas_main_topmargin": {"type": "Float", "desc": "ratio plot top margin", "default": 0.1, "kinds": ["1dratio"], },
+            "canvas_main_bottommargin": {"type": "Float", "desc": "ratio plot bottom margin", "default": 0.16, "kinds": ["1dratio"], },
+            "canvas_main_rightmargin": {"type": "Float", "desc": "ratio plot right margin", "default": 0.05, "kinds": ["1dratio"], },
+            "canvas_main_leftmargin": {"type": "Float", "desc": "ratio plot left margin", "default": 0.2, "kinds": ["1dratio"], },
+            "canvas_ratio_y2": {"type": "Float", "desc": "ratio tpad y2", "default": 0.28, "kinds": ["1dratio","graph","2d"], },
+            "canvas_ratio_topmargin": {"type": "Float", "desc": "ratio plot top margin", "default": 0.05, "kinds": ["1dratio"], },
+            "canvas_ratio_bottommargin": {"type": "Float", "desc": "ratio plot bottom margin", "default": 0.4, "kinds": ["1dratio"], },
+            "canvas_ratio_rightmargin": {"type": "Float", "desc": "ratio plot right margin", "default": 0.05, "kinds": ["1dratio"], },
+            "canvas_ratio_leftmargin": {"type": "Float", "desc": "ratio plot left margin", "default": 0.16, "kinds": ["1dratio"], },
+            "canvas_tick_one_side": {"type": "Boolean", "desc": "ratio plot left margin", "default": False, "kinds": ["1dratio"], },
+
+            # Legend
+            "legend_coordinates": { "type": "List", "desc": "4 elements specifying TLegend constructor coordinates", "default": [0.63,0.67,0.93,0.87], "kinds": ["1dratio","graph"], },
+            "legend_alignment": { "type": "String", "desc": "easy alignment of TLegend. String containing two words from: bottom, top, left, right", "default": "", "kinds": ["1dratio","graph"], },
+            "legend_smart": { "type": "Boolean", "desc": "Smart alignment of legend to prevent overlaps", "default": True, "kinds": ["1dratio"], },
+            "legend_border": { "type": "Boolean", "desc": "show legend border?", "default": True, "kinds": ["1dratio","graph"], },
+            "legend_rounded": { "type": "Boolean", "desc": "rounded legend border", "default": True, "kinds": ["1dratio"], },
+            "legend_scalex": { "type": "Float", "desc": "scale width of legend by this factor", "default": 1, "kinds": ["1dratio","graph"], },
+            "legend_scaley": { "type": "Float", "desc": "scale height of legend by this factor", "default": 1, "kinds": ["1dratio","graph"], },
+            "legend_opacity": { "type": "Float", "desc": "from 0 to 1 representing the opacity of the TLegend white background", "default": 0.5, "kinds": ["1dratio","graph"], },
+            "legend_ncolumns": { "type": "Int", "desc": "number of columns in the legend", "default": 1, "kinds": ["1dratio","graph"], },
+            "legend_column_separation": { "type": "Float", "desc": "column separation size", "default": None, "kinds": ["1dratio","graph"], },
+            "legend_percentageinbox": { "type": "Boolean", "desc": "show relative process contributions as %age in the legend thumbnails", "default": True, "kinds": ["1dratio"], },
+            "legend_datalabel": { "type": "String", "desc": "label for the data histogram in the legend", "default": "Data", "kinds": ["1dratio"], },
+
+            # Axes
+            "nbins": { "type": "Int", "desc": "number of bins", "default": None, "kinds": ["1dratio"], },
+
+            "xaxis_log": { "type": "Boolean", "desc": "log scale x-axis", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_log": { "type": "Boolean", "desc": "log scale y-axis", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "zaxis_log": { "type": "Boolean", "desc": "log scale z-axis", "default": False, "kinds": ["2d"], },
+
+            "xaxis_label": { "type": "String", "desc": "label for x axis", "default": "", "kinds": ["1dratio","graph","2d"], },
+            "yaxis_label": { "type": "String", "desc": "label for y axis", "default": "Events", "kinds": ["1dratio","graph","2d"], },
+            "zaxis_label": { "type": "String", "desc": "label for z axis", "default": "", "kinds": ["2d"], },
+
+            "xaxis_label_size": { "type": "Float", "desc": "size of fonts for x axis", "default": 0.045, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_label_size": { "type": "Float", "desc": "size of fonts for y axis", "default": 0.045, "kinds": ["1dratio","graph","2d"], },
+            "zaxis_label_size": { "type": "Float", "desc": "size of fonts for z axis", "default": 0.045, "kinds": ["2d"], },
+
+            "xaxis_title_size": { "type": "Float", "desc": "size of fonts for x axis title", "default": 0.065, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_title_size": { "type": "Float", "desc": "size of fonts for y axis title", "default": 0.065, "kinds": ["1dratio","graph","2d"], },
+
+            "xaxis_title_offset": { "type": "Float", "desc": "offset of x axis title", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_title_offset": { "type": "Float", "desc": "offset of y axis title", "default": 1.3, "kinds": ["1dratio","graph","2d"], },
+
+            "xaxis_label_offset_scale": { "type": "Float", "desc": "x axis tickmark labels offset", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_label_offset_scale": { "type": "Float", "desc": "y axis tickmark labels offset", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
+
+            "xaxis_tick_length_scale": { "type": "Float", "desc": "x axis tickmark length scale", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_tick_length_scale": { "type": "Float", "desc": "y axis tickmark length scale", "default": 1.0, "kinds": ["1dratio","graph","2d"], },
+
+            "xaxis_moreloglabels": { "type": "Boolean", "desc": "show denser labels with logscale for x axis", "default": True, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_moreloglabels": { "type": "Boolean", "desc": "show denser labels with logscale for y axis", "default": True, "kinds": ["1dratio","graph","2d"], },
+            "zaxis_moreloglabels": { "type": "Boolean", "desc": "show denser labels with logscale for z axis", "default": True, "kinds": ["1dratio","graph","2d"], },
+            "xaxis_noexponents": { "type": "Boolean", "desc": "don't show exponents in logscale labels for x axis", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "yaxis_noexponents": { "type": "Boolean", "desc": "don't show exponents in logscale labels for y axis", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "zaxis_noexponents": { "type": "Boolean", "desc": "don't show exponents in logscale labels for z axis", "default": False, "kinds": ["1dratio","graph","2d"], },
+
+            "yaxis_exponent_offset": { "type": "Float", "desc": "offset x10^n left or right", "default": 0.0, "kinds": ["1dratio"], },
+            "yaxis_exponent_vertical_offset": { "type": "Float", "desc": "offset x10^n up or down", "default": 0.0, "kinds": ["1dratio"], },
+
+            "yaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for y-axis", "default": 505, "kinds": ["1dratio", "graph", "2d"], },
+            "xaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for x-axis", "default": 505, "kinds": ["1dratio", "graph", "2d"], },
+
+            "xaxis_range": { "type": "List", "desc": "2 elements to specify x axis range", "default": [], "kinds": ["1dratio","graph","2d"], },
+            "yaxis_range": { "type": "List", "desc": "2 elements to specify y axis range", "default": [], "kinds": ["1dratio","graph","2d"], },
+            "zaxis_range": { "type": "List", "desc": "2 elements to specify z axis range", "default": [], "kinds": ["2d"], },
+
+            "xaxis_bins":{"type":"List","desc":"List containing bin labels instead of text","default":[],"kinds":["1dratio","graph","2dratio"]},
+            "xaxis_bin_text_labels":{"type":"List","desc":"List containing bin labels instead of text","default":[],"kinds":["1dratio","graph","2dratio"]},
+
+            # Ratio
+            "do_ratio": { "type": "Boolean", "desc": "draw ratio plot", "default": False, "kinds": ["1dratio"], },
+            "ratio_name": { "type": "String", "desc": "name of ratio pad", "default": "Data/Pred.", "kinds": ["1dratio"], },
+            "ratio_name_size": { "type": "Float", "desc": "size of the name on the ratio pad (e.g. data/MC)", "default": 0.18, "kinds": ["1dratio"], },
+            "ratio_label_size": { "type": "Float", "desc": "XY-axis label size", "default": 0.12, "kinds": ["1dratio"], },
+            "ratio_xaxis_title_offset": { "type": "Float", "desc": "offset to the x-axis titles", "default": 0.85, "kinds": ["1dratio"], },
+            "ratio_yaxis_title_offset": { "type": "Float", "desc": "offset to the y-axis titles", "default": 0.35, "kinds": ["1dratio"], },            
+            "ratio_xaxis_label_offset": { "type": "Float", "desc": "offset to the x-axis labels (numbers)", "default": None, "kinds": ["1dratio"], },
+            "ratio_yaxis_label_offset": { "type": "Float", "desc": "offset to the y-axis labels (numbers)", "default": None, "kinds": ["1dratio"], }, 
+            "ratio_range": { "type": "List", "desc": "pair for min and max y-value for ratio; default auto re-sizes to 3 sigma range", "default": [0,2], "kinds": ["1dratio"], },
+            "ratio_horizontal_lines": { "type": "List", "desc": "list of y-values to draw horizontal line", "default": [1.], "kinds": ["1dratio"], },
+            "ratio_chi2prob": { "type": "Boolean", "desc": "show chi2 probability for ratio", "default": False, "kinds": ["1dratio"], },
+            "ratio_pull": { "type": "Boolean", "desc": "show pulls instead of ratios in ratio pad", "default": False, "kinds": ["1dratio"], },
+            "ratio_pull_numbers": { "type": "Boolean", "desc": "show numbers for pulls, and mean/sigma", "default": False, "kinds": ["1dratio"], },
+            "ratio_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for ratio", "default": 510, "kinds": ["1dratio"], },
+            "ratio_numden_indices": { "type": "List", "desc": "Pair of numerator and denominator histogram indices (from `bgs`) for ratio", "default": None, "kinds": ["1dratio"], },
+            "ratio_binomial_errors": { "type": "Boolean", "desc": "Use binomial error propagation when computing ratio eror bars", "default": False, "kinds": ["1dratio"], },
+            "ratio_tick_length_scale": { "type": "Float", "desc": "Tick length scale of ratio pads", "default": 1.0, "kinds": ["1dratio"], },
+
+            # Overall
+            "title": { "type": "String", "desc": "plot title", "default": "", "kinds": ["1dratio","graph","2d"], },
+            "draw_points": { "type": "Boolean", "desc": "draw points instead of fill", "default": False, "kinds": ["1d","1dratio"], },
+            "draw_option_2d": { "type": "String", "desc": "hist draw option", "default": "colz", "kinds": ["2d"], },
+            "bkg_err_fill_style": { "type": "Int", "desc": "Error shade draw style", "default": 3345, "kinds": ["1d", "1dratio"], },
+            "bkg_err_fill_color": { "type": "Int", "desc": "Error shade color", "default": None, "kinds": ["1d", "1dratio"], },
+            "ratio_err_fill_style": { "type": "Int", "desc": "Error shade draw style", "default": 3345, "kinds": ["1d", "1dratio"], },
+            "ratio_err_fill_color": { "type": "Int", "desc": "Error shade color", "default": None, "kinds": ["1d", "1dratio"], },
+
+            # CMS things
+            "cms_label": {"type": "String", "desc": "E.g., 'Preliminary'; default hides label", "default": "Preliminary", "kinds": ["1dratio","graph","2d"]},
+            "lumi_value": {"type": "String", "desc": "E.g., 35.9; default hides lumi label", "default": "136.9", "kinds": ["1dratio","graph","2d"]},
+            "lumi_unit": {"type": "String", "desc": "Unit for lumi label", "default": "fb", "kinds": ["1dratio","graph","2d"]},
+
+            # Misc
+            "stack_sig": { "type": "Boolean", "desc": "stack signals", "default": True, "kinds": ["1dratio"], },
+            "do_stack": { "type": "Boolean", "desc": "stack histograms", "default": True, "kinds": ["1dratio"], },
+            "palette_name": { "type": "String", "desc": "color palette: 'default', 'rainbow', 'susy', etc.", "default": "default", "kinds": ["2d"], },
+            "show_bkg_errors": { "type": "Boolean", "desc": "show error bar for background stack", "default": False, "kinds": ["1dratio"], },
+            "show_bkg_smooth": { "type": "Boolean", "desc": "show smoothed background stack", "default": False, "kinds": ["1dratio"], },
+            "bkg_sort_method": { "type": "Boolean", "desc": "how to sort background stack using integrals: 'unsorted', 'ascending', or 'descending'", "default": 'ascending', "kinds": ["1dratio"], },
+            "no_ratio": { "type": "Boolean", "desc": "do not draw ratio plot", "default": False, "kinds": ["1dratio"], },
+
+            "max_digits": { "type": "Int", "desc": "integer for max digits", "default": 5, "kinds" : ["1dratio", "graph", "2d"], },
+
+
+            "bin_text_size": { "type": "Float", "desc": "size of text in bins (TH2::SetMarkerSize)", "default": 1.7, "kinds": ["2d"], },
+            "bin_text_format": { "type": "String", "desc": "format string for text in TH2 bins", "default": ".1f", "kinds": ["2d"], },
+            "bin_text_smart": { "type": "Boolean", "desc": "change bin text color for aesthetics", "default": False, "kinds": ["2d"], },
+            "bin_text_format_smart": { "type": "String", "desc": "python-syntax format string for smart text in TH2 bins taking value and bin error", "default": "{0:.0f}#pm{1:.0f}", "kinds": ["2d"], },
+
+            "hist_line_none": { "type": "Boolean", "desc": "No lines for histograms, only fill", "default": False, "kinds": ["1dratio"], },
+            "hist_line_black": { "type": "Boolean", "desc": "Black lines for histograms", "default": False, "kinds": ["1dratio"], },
+            "hist_disable_xerrors": { "type": "Boolean", "desc": "Disable the x-error bars on data for 1D hists", "default": True, "kinds": ["1dratio"], },
+
+            "extra_text": { "type": "List", "desc": "list of strings for textboxes", "default": [], "kinds": [ "1dratio","graph"], },
+            "extra_text_size": { "type": "Float", "desc": "size for extra text", "default": 0.03, "kinds": [ "1dratio","graph"], },
+            "extra_text_xpos": { "type": "Float", "desc": "NDC x position (0 to 1) for extra text", "default": 0.235, "kinds": [ "1dratio","graph"], },
+            "extra_text_ypos": { "type": "Float", "desc": "NDC y position (0 to 1) for extra text", "default": 0.74, "kinds": [ "1dratio","graph"], },
+
+            "extra_lines": { "type": "List", "desc": "list of upto 7-tuples (x1,y1,x2,y2,style,width,color) for lines", "default": [], "kinds": [ "1dratio","graph"], },
+
+            "no_overflow": {"type":"Boolean","desc":"Do not plot overflow bins","default": False, "kinds" : ["1dratio"],},
+
+            # Fun
+            "us_flag": { "type": "Boolean", "desc": "show the US flag in the corner", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "us_flag_coordinates": { "type": "List", "desc": "Specify flag location with (x pos, y pos, size)", "default": [0.68,0.96,0.06], "kinds": ["1dratio","graph","2d"], },
+
+            # Output
+            "output_name": { "type": "String", "desc": "output file name/path", "default": "plot.pdf", "kinds": ["1dratio","graph","2d"], },
+            "output_ic": { "type": "Boolean", "desc": "run `ic` (imgcat) on output", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "output_jsroot": { "type": "Boolean", "desc": "output .json for jsroot", "default": False, "kinds": ["1dratio","graph","2d"], },
+            "output_diff_previous": { "type": "Boolean", "desc": "diff the new output file with the previous", "default": False, "kinds": ["1dratio","graph","2d"], },
+
+        }
+
+        self.check_options()
+
+    def usage(self):
+
+        for key,obj in sorted(self.recognized_options.items()):
+            default = obj["default"]
+            desc = obj["desc"]
+            typ = obj["type"]
+            kinds = obj["kinds"]
+            if self.kind and self.kind not in kinds: continue
+            if type(default) is str: default = '"{}"'.format(default)
+            print("* `{}` [{}]\n    {} (default: {})".format(key,typ,desc,default))
+
+    def check_options(self):
+        for name,val in self.options.items():
+            if name not in self.recognized_options:
+                print(">>> Option {} not in list of recognized options".format(name))
+            else:
+                obj = self.recognized_options[name]
+                if self.kind not in obj["kinds"]:
+                    print(">>> Option {} isn't declared to work with plot type of '{}'".format(name, self.kind))
+                else:
+                    pass
+                    # print ">>> Carry on mate ... {} is fine".format(name)
+
+    def __getitem__(self, key):
+        if key in self.options:
+            return self.options[key]
+        else:
+            if key in self.recognized_options:
+                return self.recognized_options[key]["default"]
+            else:
+                print(">>> Hmm, can't find {} anywhere. Typo or intentional?".format(key))
+                return None
+
+    def get(self, key, default=None):
+        val = self.__getitem__(key)
+        if not val: return default
+        else: return val
+
+    def is_default(self, key):
+        """
+        returns True if user has not overriden this particular option
+        """
+        default = None
+        if key in self.recognized_options:
+            default = self.recognized_options[key]["default"]
+        return (self.__getitem__(key) == default)
+
+    def __setitem__(self, key, value):
+        self.options[key] = value
+
+    def __repr__(self):
+        return str(self.options)
+
+    def __contains__(self, key):
+        return key in self.options
+
+    def __add__(self, other):
+        new_opts = {}
+        new_opts.update(self.options)
+        if type(other) is dict:
+            new_opts.update(other)
+        else:
+            new_opts.update(other.options)
+        return Options(new_opts,kind=self.kind)
+
 class Options(object):
     """
     The Options object is just a nice wrapper around a dictionary
@@ -36,6 +288,8 @@ class Options(object):
             self.kind = options.kind
 
         self.recognized_options = {
+			"signal_scale": {"type": "Int", "desc": "width of TCanvas in pixel", "default": None, "kinds": ["1dratio","graph","2d"], },
+
 
             # Canvas
             "canvas_width": {"type": "Int", "desc": "width of TCanvas in pixel", "default": 700, "kinds": ["1dratio","graph","2d"], },
@@ -103,8 +357,8 @@ class Options(object):
             "yaxis_exponent_offset": { "type": "Float", "desc": "offset x10^n left or right", "default": 0.0, "kinds": ["1dratio"], },
             "yaxis_exponent_vertical_offset": { "type": "Float", "desc": "offset x10^n up or down", "default": 0.0, "kinds": ["1dratio"], },
 
-            "yaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for y-axis", "default": 510, "kinds": ["1dratio", "graph", "2d"], },
-            "xaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for x-axis", "default": 510, "kinds": ["1dratio", "graph", "2d"], },
+            "yaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for y-axis", "default": 505, "kinds": ["1dratio", "graph", "2d"], },
+            "xaxis_ndivisions": { "type": "Int", "desc": "SetNdivisions integer for x-axis", "default": 505, "kinds": ["1dratio", "graph", "2d"], },
 
             "xaxis_range": { "type": "List", "desc": "2 elements to specify x axis range", "default": [], "kinds": ["1dratio","graph","2d"], },
             "yaxis_range": { "type": "List", "desc": "2 elements to specify y axis range", "default": [], "kinds": ["1dratio","graph","2d"], },
@@ -259,6 +513,30 @@ class Options(object):
 def overflow(hist):
 	return hist
 
+def draw_cms_lumi(c1, nudge, opts ):#, _persist=[]):
+
+	c1.cd()
+	t = ROOT.TLatex()
+	t.SetTextAlign(11) # align bottom left corner of text
+	t.SetTextColor(ROOT.kBlack)
+	t.SetTextSize(0.04)
+	# get top left corner of current pad, and nudge up the y coord a bit
+	xcms  = ROOT.gPad.GetX1() + opts["canvas_main_leftmargin"]
+	ycms  = ROOT.gPad.GetY2() - opts["canvas_main_topmargin"] + nudge
+	xlumi = ROOT.gPad.GetX2() - opts["canvas_main_rightmargin"]
+	cms_label = opts["cms_label"]
+	lumi_value = str(opts["lumi_value"])
+	lumi_unit = opts["lumi_unit"]
+	energy = 13
+	if cms_label is not None:
+	    t.DrawLatexNDC(xcms,ycms,"#scale[1.25]{#font[61]{CMS}} #scale[1.1]{#font[52]{%s}}" % cms_label)
+	if lumi_value:
+	    t.SetTextSize(0.04)
+	    t.SetTextAlign(31) # align bottom right
+	    t.SetTextFont(42) # align bottom right
+	    t.DrawLatexNDC(xlumi,ycms,"{lumi_str} {lumi_unit}^{{-1}} ({energy} TeV)".format(energy=energy, lumi_str=lumi_value, lumi_unit=lumi_unit))
+	#_persist.append(t)
+	return
 
 def draw_extra_stuff(c1, opts):
 
@@ -280,9 +558,9 @@ def get_legend(opts):
     height = 0.2
     width = 0.3
     if "bottom" in legend_alignment: y1, y2 = 0.18, 0.18+height
-    if "top" in legend_alignment: y1, y2 = 0.67, 0.67+height
-    if "left" in legend_alignment: x1, x2 = 0.18, 0.18+width
-    if "right" in legend_alignment: x1, x2 = 0.63, 0.63+width
+    if "top" 	in legend_alignment: y1, y2 = 0.67, 0.67+height
+    if "left" 	in legend_alignment: x1, x2 = 0.18, 0.18+width
+    if "right" 	in legend_alignment: x1, x2 = 0.63, 0.63+width
     if "middle" in legend_alignment: x1, x2 = 0.30, 0.30+width
 
     # scale width and height of legend keeping the sides
@@ -348,6 +626,8 @@ def do_style_ratio(ratio, opts, tpad):
     if opts["ratio_name_size"]  : ratio.GetXaxis().SetTitleSize(opts["ratio_name_size"])
     if opts["ratio_ndivisions"] : ratio.GetXaxis().SetNdivisions(opts["ratio_ndivisions"])
     if opts["ratio_label_size"] : ratio.GetXaxis().SetLabelSize(opts["ratio_label_size"])   
+    if opts["xaxis_bin_text_labels"]: ratio.GetXaxis().SetLabelSize(0.18)
+
     if opts["ratio_xaxis_title_offset"]: ratio.GetXaxis().SetTitleOffset(opts["ratio_xaxis_title_offset"])
     if opts["ratio_xaxis_label_offset"]: ratio.GetXaxis().SetLabelOffset(opts["ratio_xaxis_label_offset"])
     ratio.GetXaxis().SetTickSize(0.06 * opts["ratio_tick_length_scale"])
@@ -403,17 +683,18 @@ def getMultipleSRHisto(fname,srs,selname,dist):
 	for hist in hists:
 		hist_merged.Add(hist)
 	
+ 
 	if "data"    in fname : hist_merged.SetName( selname + "__" + dist + "_data"   )
-	if "photon"  in fname : hist_merged.SetName( selname + "__" + dist + "_photon" )
-	if "qflip"   in fname : hist_merged.SetName( selname + "__" + dist + "_qflip"  ) 
-	if "fakes"   in fname : hist_merged.SetName( selname + "__" + dist + "_fakes"  ) 
-	if "lostlep" in fname : hist_merged.SetName( selname + "__" + dist + "_lostlep") 
-	if "prompt"  in fname : hist_merged.SetName( selname + "__" + dist + "_prompt" ) 
-	if "www"     in fname : hist_merged.SetName( selname + "__" + dist + "_WWW"    ) 
-	if "wwz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WWZ"    ) 
-	if "wzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WZZ"    ) 
-	if "zzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_ZZZ"    ) 
-	if "vvv"     in fname : hist_merged.SetName( selname + "__" + dist + "_VVV"    ) 
+	elif "photon"  in fname : hist_merged.SetName( selname + "__" + dist + "_photon" )
+	elif "qflip"   in fname : hist_merged.SetName( selname + "__" + dist + "_qflip"  ) 
+	elif "fakes"   in fname : hist_merged.SetName( selname + "__" + dist + "_fakes"  ) 
+	elif "lostlep" in fname : hist_merged.SetName( selname + "__" + dist + "_lostlep") 
+	elif "prompt"  in fname : hist_merged.SetName( selname + "__" + dist + "_prompt" ) 
+	elif "www"     in fname : hist_merged.SetName( selname + "__" + dist + "_WWW"    ) 
+	elif "wwz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WWZ"    ) 
+	elif "wzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_WZZ"    ) 
+	elif "zzz"     in fname : hist_merged.SetName( selname + "__" + dist + "_ZZZ"    ) 
+	elif "vvv"     in fname : hist_merged.SetName( selname + "__" + dist + "_VVV"    ) 
 
 	hist_merged.SetDirectory(0)
 	return hist_merged
@@ -484,11 +765,21 @@ def data_style(hist,opts):
 def background_style(hist,opts):
 	name = hist.GetName()
 	col = ROOT.kBlack
-	if "photon"  in name : col = 920 
-	if "qflip"   in name : col = 2007 
-	if "fakes"   in name : col = 2005 
-	if "lostlep" in name : col = 2003 
-	if "prompt"  in name : col = 2001 
+
+	if "BDT_lostlep_prompt_SS2J" in name: name = name.replace("BDT_lostlep_prompt_SS2J","")
+	if "BDT_lostlep_prompt_SS1J" in name: name = name.replace("BDT_lostlep_prompt_SS1J","")
+	if "BDT_lostlep_prompt_SFOS" in name: name = name.replace("BDT_lostlep_prompt_SFOS","")
+	if "BDT_photon_fakes_SS1J"   in name: name = name.replace("BDT_photon_fakes_SS1J","")
+	if "BDT_photon_fakes_SS2J"   in name: name = name.replace("BDT_photon_fakes_SS2J","")
+	if "BDT_photon_fakes_SFOS"   in name: name = name.replace("BDT_photon_fakes_SFOS","")
+
+	if "photon"    in name : col = 920 
+	elif "qflip"   in name : col = 2007 
+	elif "fakes"   in name : col = 2005 
+	elif "lostlep" in name : col = 2003 
+	elif "prompt"  in name : col = 2001 
+
+	#print(name, col)
 
 	if opts["nbins"]: 
 		bins_now = hist.GetNbinsX() 
@@ -501,17 +792,20 @@ def background_style(hist,opts):
 	if opts["xaxis_bin_text_labels"]:
 		for i in range(len( opts["xaxis_bin_text_labels"])):
 			hist.GetXaxis().SetBinLabel(i+1,opts["xaxis_bin_text_labels"][i])
-		hist.GetXaxis().SetLabelSize(0.08)
+		hist.GetXaxis().SetLabelSize(0.07)
 	if opts["yaxis_label"]: hist.GetYaxis().SetTitle(opts["yaxis_label"])
 
-	hist.GetYaxis().SetTitleOffset(0.5)
-	hist.GetYaxis().SetTitleSize(0.05)
+	#hist.GetYaxis().SetTitleOffset(0.5)
+	#hist.GetYaxis().SetTitleSize(0.05)
 
 	#hist.SetLineColor(col)
 	hist.SetLineColor(ROOT.kBlack)
 	hist.SetMarkerColor(col)
 	hist.SetMarkerSize(0)
 	hist.SetFillColorAlpha(col,0.8) # may want option for this
+
+	if opts["yaxis_ndivisions"]: hist.GetYaxis().SetNdivisions(opts["yaxis_ndivisions"])
+	if opts["xaxis_ndivisions"]: hist.GetXaxis().SetNdivisions(opts["xaxis_ndivisions"])
 
 	return hist
 
@@ -535,10 +829,14 @@ def signal_style(hist,opts):
 	else : 
 		hist.SetMarkerStyle(1) # 2 has errors
 		hist.SetMarkerColor(col)
-		hist.SetLineWidth(3)
+		hist.SetLineWidth(4)
 		hist.SetMarkerSize(0.8)
 		hist.SetLineColor(col)
-     
+		hist.SetFillColorAlpha(col,0.0) # may want option for this
+
+		if opts["signal_scale"]:
+			hist.Scale(opts["signal_scale"])
+
 	if opts["nbins"]: 
 		bins_now = hist.GetNbinsX() 
 		rebin_fact = int(bins_now/(opts["nbins"]))
