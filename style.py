@@ -675,8 +675,33 @@ def getMultipleSRHisto(fname,srs,selname,dist):
 	hists = []
 	for sr in srs: 
 		histname = "{}__{}".format(sr,dist)
-		hist = froot.Get(histname)	
+
+		if "photon"  in fname : 
+
+			hist_years = []
+			for year in ["2016","2017","2018"]:
+				froot_year = ROOT.TFile.Open("hists/Loose{}_v5.3.3/2020_03_09_1500/photon.root".format(year))
+				
+				hist_year = froot_year.Get(histname)	
+				hist_year.SetDirectory(0)
+
+				if year == "2016" : hist_year.Scale(0.991)
+				if year == "2017" : hist_year.Scale(0.508)
+				if year == "2018" : hist_year.Scale(0.551)
+
+				hist_years.append(hist_year)	
+	
+			hist = hist_years[0].Clone()
+			hist.Add(hist_years[1])
+			hist.Add(hist_years[2])
+			hist.SetDirectory(0)
+			
+		else: 
+			hist = froot.Get(histname)	
+			
 		hists.append(hist)
+		#print(fname,histname)
+		#print(hist)
 
 	hist_merged = hists[0].Clone()
 	hist_merged.Reset()
@@ -717,6 +742,24 @@ def getHisto(fname,histname):
 
 	froot = ROOT.TFile.Open(fname)
 	hist = froot.Get(histname)	
+	if "photon"  in fname : 
+		print("Doing photon")
+		froot2016 = ROOT.TFile.Open("Loose2016_v5.3.3/2020_03_09_1500/photon.root")	
+		froot2017 = ROOT.TFile.Open("Loose2016_v5.3.3/2020_03_09_1500/photon.root")	
+		froot2018 = ROOT.TFile.Open("Loose2016_v5.3.3/2020_03_09_1500/photon.root")	
+
+		hist2016 = froot2016.Get(histname)	
+		hist2017 = froot2017.Get(histname)	
+		hist2018 = froot2018.Get(histname)
+
+		hist2016.Scale(0.991)
+		hist2017.Scale(0.508)
+		hist2018.Scale(0.551)	
+
+		hist = hist2016.Clone()
+		hist.Add(hist2017)
+		hist.Add(hist2018)
+
 	hist.SetDirectory(0)
 
 	if "data"    in fname : hist.SetName( hist.GetName() + "_data"   )
@@ -730,6 +773,7 @@ def getHisto(fname,histname):
 	if "wzz"     in fname : hist.SetName( hist.GetName() + "_WZZ"    ) 
 	if "zzz"     in fname : hist.SetName( hist.GetName() + "_ZZZ"    ) 
 	if "vvv"     in fname : hist.SetName( hist.GetName() + "_VVV"    )
+
 	return hist
 
 def getHistos(fnames,histname):
