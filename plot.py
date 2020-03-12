@@ -77,6 +77,8 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	if "SR2SFOSPreSel" in selname : txt = "2SFOS preselection"
 	if "SR1SFOSPreSel" in selname : txt = "1SFOS preselection"
 	if "SR0SFOSPreSel" in selname : txt = "0SFOS preselection"
+
+	if "SR1SFOSDYVeto" in selname : txt = "1SFOS preselection + Z Veto"
 	
 	if "SR2SFOSPreSelBDT" in selname : txt = "2SFOS BDT preselection"
 	if "SR1SFOSPreSelBDT" in selname : txt = "1SFOS BDT preselection"
@@ -587,6 +589,23 @@ options = {
 }
 makePlotMultipleSRs(srs,sel,"MT3rd", dirname, options)
 
+srs = ["SR1SFOSDYVeto"]
+sel = "SR1SFOSDYVeto"
+scale = 20
+
+options = {
+ "signal_scale" : scale,
+ "yaxis_label": "Events",
+ "xaxis_label":"M_{T}^{3rd}",
+ "xaxis_range":[0,250],
+ "nbins": 35,
+ #"yaxis_log": True,
+}
+makePlotMultipleSRs(srs,sel,"MT3rd", dirname, options)
+
+
+
+
 srs = ["SR2SFOSPreSel"]
 sel = "SR2SFOSPreSel"
 scale = 100
@@ -630,12 +649,12 @@ makePlotMultipleSRs(srs,sel,"Pt3l", dirname, options)
 #makeSSinclusive(dirname)
 #makeSS2Jplots(dirname)
 #makeSS1Jplots(dirname)
-#make0SFOSplots(dirname)
+make0SFOSplots(dirname)
 
 #makeBDTPlots()
 
 #makeWZCRSSplots(dirname)
-makeFakeCRplots(dirname)
+#makeFakeCRplots(dirname)
 
 # BDT options
 #  KEY: TH1F	SRSSmm__BDT_lostlep_prompt_SFOS;1	
