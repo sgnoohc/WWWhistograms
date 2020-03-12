@@ -14,7 +14,7 @@ setStyle()
 def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 
 
-	input_dir = "hists/combineyearsLoose_v5.3.3/2020_03_09_1500"
+	input_dir = "/nfs-7/userdata/kdipetri/WWWhists/combineyearsLoose_v5.3.3/2020_03_09_1500/"
 	
 	data_fname = "{}/data.root".format(input_dir)
 	
