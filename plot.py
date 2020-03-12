@@ -63,16 +63,16 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	# figure out extra text here
 	txt = ""
 	if "SRSS"		  in selname: txt = "2 same-sign leptons"
-	if "SRSS2J" 	  in selname: txt = "SS N_{jet}=2"
-	if "SRSSPreSel"   in selname: txt = "SS N_{jet}=2 preselection"
-	if "SRSSKinSel"	  in selname: txt = "SS N_{jet}=2 SRs" 
-	if "SRSSKinSelnoee"	  in selname: txt = "SS N_{jet}=2 e#mu #mu#mu SRs" 
-	if "SRSS1JPreSel" in selname: txt = "SS N_{jet}=1 preselection"
+	if "SRSS2J" 	  in selname: txt = "SS n_{j}=2"
+	if "SRSSPreSel"   in selname: txt = "SS n_{j}=2 preselection"
+	if "SRSSKinSel"	  in selname: txt = "SS n_{j}=2 SRs" 
+	if "SRSSKinSelnoee"	  in selname: txt = "SS n_{j}=2 e#mu #mu#mu SRs" 
+	if "SRSS1JPreSel" in selname: txt = "SS n_{j}=1 preselection"
 	if "SR0SFOS"      in selname: txt = "0SFOS channel"
-	if "WZCRSS"       in selname: txt = "SS N_{jet}=2 WZ control region"
+	if "WZCRSS"       in selname: txt = "SS n_{j}=2 WZ control region"
 	if "CRBTag0SFOS"  in selname: txt = "0SFOS b-tag control region"
-	if "CRBTagSS"     in selname: txt = "SS N_{jet}=2 b-tag control region"
-	if "CRBTagSS1J"   in selname: txt = "SS N_{jet}=1 b-tag control region"
+	if "CRBTagSS"     in selname: txt = "SS n_{j}=2 b-tag control region"
+	if "CRBTagSS1J"   in selname: txt = "SS n_{j}=1 b-tag control region"
 
 	if "SR2SFOSPreSel" in selname : txt = "2SFOS preselection"
 	if "SR1SFOSPreSel" in selname : txt = "1SFOS preselection"
@@ -81,7 +81,7 @@ def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 	if "SR2SFOSPreSelBDT" in selname : txt = "2SFOS BDT preselection"
 	if "SR1SFOSPreSelBDT" in selname : txt = "1SFOS BDT preselection"
 	if "SR0SFOSPreSelBDT" in selname : txt = "0SFOS BDT preselection"
-	if "SRSSPreSelBDT" in selname : txt = "SS N_{jet}=2 BDT preselection"
+	if "SRSSPreSelBDT" in selname : txt = "SS n_{j}=2 BDT preselection"
 
 	if "Cut3LPreSel" in selname : txt = "3L preselection"
 
@@ -126,7 +126,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "E_{T}^{miss} [GeV]",
+	 "xaxis_label": "p_{T}^{miss} [GeV]",
 	 #"yaxis_range": [0,220],
 	 "nbins": 20,
 	}
@@ -136,7 +136,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -156,7 +156,7 @@ def makeSS2Jplots(dirname):
 	options = {
 	 "signal_scale": 5,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{jj} [GeV]",
+	 "xaxis_label": "m_{jj} [GeV]",
 	 "nbins": 10,
 	 #"xaxis_range": [0,500]
 	}
@@ -177,7 +177,7 @@ def makeSS1Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "E_{T}^{miss} [GeV]",
+	 "xaxis_label": "p_{T}^{miss} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MET" , dirname, options)
@@ -187,7 +187,7 @@ def makeSS1Jplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,35],
-	 "xaxis_label": "M_{lj}^{min} [GeV]",
+	 "xaxis_label": "m_{lj}^{min} [GeV]",
 	 "nbins": 10,
 	 "yaxis_range": [0,500],
 	}
@@ -208,7 +208,7 @@ def makeSS1Jplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -233,7 +233,7 @@ def make0SFOSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 "yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 15,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -264,7 +264,7 @@ def make0SFOSplots(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{b-jets}",
+	 "xaxis_label": "n_{b}",
 	 "xaxis_range": [0,4],
 	 "xaxis_bin_text_labels": ["0","1","2","3"],
 	}
@@ -304,7 +304,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{jj} [GeV]",
+	 "xaxis_label": "m_{jj} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "Mjj" , dirname, options)
@@ -314,7 +314,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{3rd} [GeV]",
+	 "xaxis_label": "m_{T}^{3rd} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "MT3rd" , dirname, options)
@@ -324,7 +324,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 20,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -334,7 +334,7 @@ def makeWZCRSSplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "M_{ll}^{SFOS} [GeV]",
+	 "xaxis_label": "m_{ll}^{SFOS} [GeV]",
 	 "xaxis_range": [70,110],
 	 "nbins": 50,
 	}
@@ -381,7 +381,7 @@ def makeFakeCRplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 "yaxis_range": [0,35],
-	 "xaxis_label": "M_{T}^{max} [GeV]",
+	 "xaxis_label": "m_{T}^{max} [GeV]",
 	 "nbins": 10,
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
@@ -394,7 +394,7 @@ def makeFakeCRplots(dirname):
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,35],
-	 "xaxis_label": "M_{lj}^{min}",
+	 "xaxis_label": "m_{lj}^{min}",
 	 "nbins": 15,
 	 #"xaxis_range": [0,4.0],
 	}
@@ -437,7 +437,7 @@ def makeSSinclusive(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{jets}",
+	 "xaxis_label": "n_{j}",
 	 "xaxis_range": [0,5],
 	 "xaxis_bin_text_labels": ["0","1","2","3","4"],
 	}
@@ -446,7 +446,7 @@ def makeSSinclusive(dirname):
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
-	 "xaxis_label": "N_{b-jets}",
+	 "xaxis_label": "n_{b}",
 	 "ratio_ndivisions" : 505,
 	 "xaxis_ndivisions" : 505,
 	 "xaxis_range": [0,4],
@@ -566,7 +566,7 @@ makePlotMultipleSRs(srs,sel,"nSFOS", dirname, options)
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"p_{T}^{3l}",
+ "xaxis_label":"p_{T}^{lll}",
  "xaxis_range":[0,200],
  "nbins": 40,
  #"yaxis_log": True,
@@ -580,7 +580,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"M_{T}^{3rd}",
+ "xaxis_label":"m_{T}^{3rd}",
  #"xaxis_range":[0,200],
  "nbins": 30,
  #"yaxis_log": True,
@@ -594,7 +594,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"M_{T}^{max}",
+ "xaxis_label":"m_{T}^{max}",
  #"xaxis_range":[0,200],
  "nbins": 30,
  #"yaxis_log": True,
@@ -608,7 +608,7 @@ scale = 100
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"#Delta#phi(3l,E_{T}^{miss})",
+ "xaxis_label":"#Delta#phi(3l,p_{T}^{miss})",
  #"xaxis_range":[0,200],
  "nbins": 20,
  #"yaxis_log": True,
@@ -618,7 +618,7 @@ makePlotMultipleSRs(srs,sel,"DPhi3lMET", dirname, options)
 options = {
  "signal_scale" : scale,
  "yaxis_label": "Events",
- "xaxis_label":"p_{T}^{3l}",
+ "xaxis_label":"p_{T}^{lll}",
  "xaxis_range":[0,200],
  "nbins": 40,
  #"yaxis_log": True,
