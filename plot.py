@@ -14,7 +14,7 @@ setStyle()
 def makePlotMultipleSRs(srs, selname, name , dirname, extraoptions={}):
 
 
-	input_dir = "/nfs-7/userdata/kdipetri/WWWhists/combineyearsLoose_v5.3.3/2020_03_09_1500/"
+	input_dir = "/nfs-7/userdata/phchang/vvvauxplots/WWWhists/combineyearsLoose_v5.3.3/2020_03_09_1500/"
 	
 	data_fname = "{}/data.root".format(input_dir)
 	
@@ -542,6 +542,110 @@ def makeBDTPlots():
 	makePlotMultipleSRs(srs,sel,"BDT_photon_fakes_SFOS_noBtag", dirname, options)
 
 	return
+
+def makePlotMultipleSRs_4lep(srs, selname, name , dirname, extraoptions={}):
+
+
+	input_dir = "/nfs-7/userdata/phchang/vvvauxplots/outputs/WVZMVA2016_v0.1.21_WVZMVA2017_v0.1.21_WVZMVA2018_v0.1.21/y2016_v9_nom_y2017_v9_nom_y2018_v9_nom/"
+	
+	data_fname = "{}/data.root".format(input_dir)
+	
+	bkg_fnames = [
+		"{}/zz.root".format(input_dir),
+		"{}/ttz.root".format(input_dir), # may want to take fakes from data
+		"{}/twz.root".format(input_dir),
+	    "{}/wz.root".format(input_dir),
+	    "{}/other.root".format(input_dir),
+	    ]
+
+	# background file names
+	#sig_fnames = [
+	#    "{}/www.root".format(input_dir),
+	#    "{}/wwz.root".format(input_dir),
+	#    "{}/wzz.root".format(input_dir), 
+	#    "{}/zzz.root".format(input_dir),
+	#	]
+	sig_fnames = [
+	    "{}/vvv.root".format(input_dir),
+		]
+
+	# get histos
+	data  = getMultipleSRHisto(data_fname ,srs,selname,name)
+	bgs   = getMultipleSRHistos(bkg_fnames,srs,selname,name)
+	sigs  = getMultipleSRHistos(sig_fnames,srs,selname,name)
+
+
+	legend_labels = [
+		"ZZ",
+		"t#bar{t}Z",
+		"tWZ",
+		"WZ",
+		"Other",
+		]
+	#signal_labels = [
+	#	"WWW",
+	#	"WWZ",
+	#	"WZZ",
+	#	"ZZZ"
+	#	]
+	signal_labels = [
+		"VVV",
+		]
+
+	# figure out extra text here
+	txt = ""
+	if "ChannelOnZ"		  in selname: txt = "ZZ control region"
+	if "ChannelBTagEMu"		  in selname: txt = "n_{b} #geq 1 t#bar{t}Z control region"
+
+	histname = "{}__{}".format(selname,name)
+	options = {
+		"output_name": dirname + "/" + histname + "_ratio.png",
+		"do_ratio": True,
+		"stack_sig": True,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: 
+		options.update({"yaxis_title_offset": 1.2})
+		options.update({"ratio_yaxis_title_offset": 0.4})
+
+	makePlot1Dratio( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	options = {
+		"output_name": dirname + "/" + histname + "_compare.png",
+		"do_ratio": False,
+		"stack_sig": False,
+		"extra_text": txt,
+		}
+	options.update(extraoptions)
+	if "nb" in name: options.update({"yaxis_title_offset": 1.4})
+
+	makePlot1D( histname, data, sigs, signal_labels, bgs, legend_labels, options )
+
+	return 
+
+def makeZZCR4Lplots(dirname):
+	#
+	# 3l - preselelctin
+	#
+	srs = ["ChannelOnZ"]
+	sel = "ChannelOnZ"
+	scale = 5
+
+	# MTmax 
+	options = {
+	 "signal_scale" : scale,
+	 "yaxis_label": "Events",
+	 #"yaxis_range": [0,25],
+	 "xaxis_label": "m_{ll} [GeV]",
+	 "nbins": 45,
+	}
+	makePlotMultipleSRs_4lep(srs, sel, "MET" , dirname, options)
+
+dirname = "plots_4l"
+
+makeZZCR4Lplots(dirname)
+
 
 
 # Plot things...
