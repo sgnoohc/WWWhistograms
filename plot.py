@@ -386,6 +386,9 @@ def makeFakeCRplots(dirname):
 	}
 	makePlotMultipleSRs(srs, sel, "MTmax" , dirname, options)
 
+	# SS 1J 
+	srs = ["CRBTag1Jee1JPre", "CRBTag1Jem1JPre", "CRBTag1Jmm1JPre"]
+	sel = "CRBTagSS1JPreSel"
 	# min dR j
 	options = {
 	 "signal_scale" : scale,
@@ -411,7 +414,7 @@ def makeFakeCRplots(dirname):
 	# SS 1J 
 	#srs = ["CRBTagee", "CRBTagem", "CRBTagmm"]
 	srs = ["CRBTageePreSelBDT", "CRBTagemPreSelBDT", "CRBTagmmPreSelBDT"]
-	sel = "CRBTagSS2JPreSelBDT"
+	sel = "CRBTagSS2JPreSel"
 	
 
 	options = {
