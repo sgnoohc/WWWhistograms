@@ -632,15 +632,25 @@ def makeZZCR4Lplots(dirname):
 	sel = "ChannelOnZ"
 	scale = 5
 
-	# MTmax 
+	# MET
 	options = {
 	 "signal_scale" : scale,
 	 "yaxis_label": "Events",
 	 #"yaxis_range": [0,25],
-	 "xaxis_label": "m_{ll} [GeV]",
+	 "xaxis_label": "p_{T}^{miss} [GeV]",
 	 "nbins": 45,
 	}
 	makePlotMultipleSRs_4lep(srs, sel, "MET" , dirname, options)
+
+	# MT2
+	options = {
+	 "signal_scale" : scale,
+	 "yaxis_label": "Events",
+	 #"yaxis_range": [0,25],
+	 "xaxis_label": "m_{T,2} [GeV]",
+	 "nbins": 45,
+	}
+	makePlotMultipleSRs_4lep(srs, sel, "MT2" , dirname, options)
 
 def makePlotMultipleSRs_56lep(srs, selname, name , dirname, extraoptions={}):
 
